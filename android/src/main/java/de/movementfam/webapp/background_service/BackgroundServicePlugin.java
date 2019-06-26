@@ -1,4 +1,4 @@
-package de.movementfam.webapp.background_service;
+package android.src.main.java.de.movementfam.webapp.background_service;
 
 import android.Manifest;
 import android.app.Activity;
