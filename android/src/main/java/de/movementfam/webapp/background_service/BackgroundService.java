@@ -1,9 +1,10 @@
-package android.src.main.java.de.movementfam.webapp.background_service;
+package de.movementfam.webapp.background_service;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 import android.util.Log;
 import io.flutter.plugin.common.MethodChannel;
@@ -27,8 +28,21 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
     private MethodChannel mBackgroundChannel;
     private Context mContext;
     private static final String TAG = "BackgroundService";
-    private static final int JOB_ID;
+    private static final int JOB_ID = -1;
     private static FlutterNativeView sBackgroundFlutterView;
-    private static final AtomicBoolean sServiceStarted;
+    private static final AtomicBoolean sServiceStarted = null;
     private static PluginRegistrantCallback sPluginRegistrantCallback;
+
+    public static void enqueueWork(Context context, Intent intent) {
+    }
+
+    @Override
+    protected void onHandleWork(@NonNull Intent intent) {
+
+    }
+
+    @Override
+    public void onMethodCall(MethodCall methodCall, Result result) {
+
+    }
 }
