@@ -5,7 +5,9 @@ import io.flutter.view.FlutterNativeView;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
+import androidx.annotation.RequiresApi;
 
 public class IsolateHolderService extends Service {
     private static String ACTION_SHUTDOWN = "de.movementfam.webapp.ACTION_SHUTDOWN";
@@ -16,11 +18,10 @@ public class IsolateHolderService extends Service {
     private FlutterNativeView backgroundFlutterView = null;
 
 
-    public static void setBackgroundFlutterView(FlutterNativeView view) {
-        this.backgroundFlutterView = view;
+    public void setBackgroundFlutterView(FlutterNativeView view) {
+        backgroundFlutterView = view;
     }
 
-    @androidx.annotation.Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -39,12 +40,15 @@ public class IsolateHolderService extends Service {
     public void onCreate() {
         super.onCreate();
         Notification notification =
-                new Notification.Builder(this, "BackgroundService::IsolateHolderService")
-                        .setContentTitle("Test")
-                        .setContentText("Test")
-                        .setSmallIcon(getResources().getIdentifier("ic_launcher","mipmap",getPackageName()))
-                        .setPriority(NotificationCompat.PRIORITY_LOW)
-                        .build();
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notification = new Notification.Builder(this, "BackgroundService::IsolateHolderService")
+                    .setContentTitle("Test")
+                    .setContentText("Test")
+                    .setSmallIcon(getResources().getIdentifier("ic_launcher","mipmap",getPackageName()))
+                    .setPriority(Notification.PRIORITY_LOW)
+                    .build();
+        }
         startForeground(1,notification);
     }
 
