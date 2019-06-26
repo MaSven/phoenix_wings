@@ -6,5 +6,4 @@
 packages
 pubspec.lock
 doc/
-ios/
 .dart_tool/
