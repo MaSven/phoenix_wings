@@ -7,7 +7,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 public class IsolateHolderService extends Service {
     private static String ACTION_SHUTDOWN = "de.movementfam.webapp.ACTION_SHUTDOWN";
@@ -36,17 +36,19 @@ public class IsolateHolderService extends Service {
         return START_STICKY;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
         Notification notification =
-                new Notification.Builder(this, "BackgroundService::IsolateHolderService")
-                        .setContentTitle("Test")
-                        .setContentText("Test")
-                        .setSmallIcon(getResources().getIdentifier("ic_launcher","mipmap",getPackageName()))
-                        .setPriority(Notification.PRIORITY_LOW)
-                        .build();
+                null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notification = new Notification.Builder(this, "BackgroundService::IsolateHolderService")
+                    .setContentTitle("Test")
+                    .setContentText("Test")
+                    .setSmallIcon(getResources().getIdentifier("ic_launcher","mipmap",getPackageName()))
+                    .setPriority(Notification.PRIORITY_LOW)
+                    .build();
+        }
         startForeground(1,notification);
     }
 
