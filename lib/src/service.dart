@@ -4,10 +4,9 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 
-
-abstract class BackgroundSericePlugin {
+class BackgroundSericePlugin {
   static const MethodChannel _channel =
-  const MethodChannel('de.movementfam.webapp/backgroundService');
+      const MethodChannel('webapp.movementfam.de/background_service');
 
   /// Initialize the plugin
   static Future<bool> initialize() async {
@@ -19,7 +18,7 @@ abstract class BackgroundSericePlugin {
   /// Register Service
   static Future<bool> registerService(
       void Function(List<String> id, Message message, MessageEvent event)
-      callback) {
+          callback) {
     final args = <dynamic>[
       PluginUtilities.getCallbackHandle(callback).toRawHandle()
     ];

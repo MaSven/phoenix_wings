@@ -7,7 +7,7 @@ use Mix.Config
 
 # Configures the endpoint
 config :channel_server, ChannelServerWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "192.163.0.3"],
   secret_key_base: "LAhjbRyAivhx+ELtcRSKauo8FZtsU0lsaKKo4sarLLY8U/fMACLvgwUypOnivqVQ",
   render_errors: [view: ChannelServerWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: ChannelServer.PubSub,

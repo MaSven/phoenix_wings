@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
     }
 }
 
@@ -18,14 +18,14 @@ rootProject.allprojects {
         jcenter()
     }
 }
-
 apply plugin: 'com.android.library'
+
 
 android {
     compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 28
         targetSdkVersion 28
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +33,11 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+
+
+
+
 
 dependencies {
     implementation "com.google.android.gms:play-services-location:15.0.1"

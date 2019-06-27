@@ -6,6 +6,8 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
+
+
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
@@ -30,6 +32,10 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
     public static void enqueueWork(Context context, Intent intent) {
     }
 
+    public static void setPLuginRegistrant(PluginRegistrantCallback callback){
+        sPluginRegistrantCallback=callback;
+    }
+
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
 
@@ -37,6 +43,10 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
 
     @Override
     public void onMethodCall(MethodCall methodCall, Result result) {
+
+    }
+
+    public void initializeService(){
 
     }
 }

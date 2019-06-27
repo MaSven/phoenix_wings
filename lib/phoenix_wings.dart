@@ -8,3 +8,4 @@ export 'src/phoenix_push.dart';
 export 'src/phoenix_serializer.dart';
 export 'src/phoenix_socket.dart';
 export 'src/phoenix_socket_options.dart';
+export 'src/service.dart';

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:phoenix_wings/phoenix_wings.dart';
 import 'package:intl/intl.dart';
+import 'dart:isolate';
+import 'dart:async';
+import 'dart:ui';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
-  final socket = PhoenixSocket("ws://localhost:4000/socket/websocket");
+  final socket = PhoenixSocket("ws://192.168.0.3:4000/socket/websocket");
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -28,13 +31,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   PhoenixChannel _channel;
+  String state = "N/A";
   List<ChatMessage> messages = [];
   final TextEditingController _textController = TextEditingController();
-
+  ReceivePort port = ReceivePort();
   @override
   void initState() {
-    connectSocket();
+    IsolateNameServer.registerPortWithName(
+        port.sendPort, 'phoenix_wing_send_port');
+    port.listen((dynamic data) {
+      print('Event: $data');
+      connectSocket();
+    });
+    initPlatformState();
     super.initState();
+  }
+
+  static void callback() {
+    final SendPort send =
+        IsolateNameServer.lookupPortByName('pheonix_wing_send_port');
+
+    send?.send("");
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    print('Initializing...');
+    await BackgroundSericePlugin.initialize();
+    connectSocket();
+    print('Initialization done');
   }
 
   connectSocket() async {
