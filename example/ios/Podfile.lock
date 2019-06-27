@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - phoenix_wings (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - phoenix_wings (from `.symlinks/plugins/phoenix_wings/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  phoenix_wings:
+    :path: ".symlinks/plugins/phoenix_wings/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  phoenix_wings: 9fb1f7046140487a8fbf59c7ab9d2e26d9749d9f
+
+PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
+
+COCOAPODS: 1.5.0

@@ -1,0 +1,6 @@
+framework module phoenix_wings {
+  umbrella header "phoenix_wings-umbrella.h"
+
+  export *
+  module * { export * }
+}
