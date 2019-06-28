@@ -1,12 +1,12 @@
 package de.movementfam.webapp.background_service;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import android.support.v4.app.*;
+import androidx.annotation.NonNull;
+import androidx.core.app.*;
 
 
 import io.flutter.app.FlutterPluginRegistry;
