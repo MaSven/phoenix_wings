@@ -10,8 +10,8 @@ import android.os.IBinder;
 import androidx.annotation.RequiresApi;
 
 public class IsolateHolderService extends Service {
-    private static String ACTION_SHUTDOWN = "de.movementfam.webapp.ACTION_SHUTDOWN";
-    private static String ACTION_START = "de.movementfam.webapp.ACTION_START";
+    static String ACTION_SHUTDOWN = "de.movementfam.webapp.ACTION_SHUTDOWN";
+    static String ACTION_START = "de.movementfam.webapp.ACTION_START";
     private String TAG ="BackgroundService::IsolateHolderService";
     private String WAKELOCK_TAG = "IsolateHolderService::WAKE_LOCK";
 
