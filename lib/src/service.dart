@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 abstract class BackgroundSericePlugin {
   static const MethodChannel _channel =
-  const MethodChannel('de.movementfam.webapp/backgroundService');
+  const MethodChannel('webapp.movementfam.de/background_service');
 
   /// Initialize the plugin
   static Future<bool> initialize() async {

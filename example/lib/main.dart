@@ -1,3 +1,6 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:phoenix_wings/phoenix_wings.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
-  final socket = PhoenixSocket("ws://localhost:4000/socket/websocket");
+  final socket = PhoenixSocket("ws://192.168.0.3:4000/socket/websocket");
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -31,12 +34,34 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ChatMessage> messages = [];
   final TextEditingController _textController = TextEditingController();
 
+  ReceivePort port = ReceivePort();
   @override
   void initState() {
+    IsolateNameServer.registerPortWithName(
+        port.sendPort, 'geofencing_send_port');
+    port.listen((dynamic data) {
+      print('Event: $data');
+      setState(() {
+        connectSocket();
+      });
+    });
+    initPlatformState();
     connectSocket();
-    super.initState();
+
+  }
+  static void callback() async {
+
+    final SendPort send =
+    IsolateNameServer.lookupPortByName('geofencing_send_port');
+    send?.send("");
   }
 
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    print('Initializing...');
+    await BackgroundSericePlugin.initialize();
+    print('Initialization done');
+  }
   connectSocket() async {
     await widget.socket.connect();
     // Create a new PhoenixChannel

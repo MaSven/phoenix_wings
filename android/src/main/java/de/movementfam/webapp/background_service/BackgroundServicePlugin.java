@@ -21,6 +21,8 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /** BackgroundServicePlugin */
 public class BackgroundServicePlugin implements MethodCallHandler {
 
@@ -50,7 +52,7 @@ public class BackgroundServicePlugin implements MethodCallHandler {
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     final BackgroundServicePlugin plugin = new BackgroundServicePlugin(registrar.context(),registrar.activity());
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "de.movementfam.webapp/backgroundService");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "webapp.movementfam.de/background_service");
     channel.setMethodCallHandler(plugin);
   }
 
@@ -58,12 +60,32 @@ public class BackgroundServicePlugin implements MethodCallHandler {
 
   }
 
+  private void initializeService(Context context, ArrayList<?> args){
+    Log.d(TAG,"initializeService");
+    //Java is a shitshow
+    if(args.size()==0 || args.size()>=1 && (args.get(0) == null || !(args.get(0) instanceof Long))){
+      throw new RuntimeException("No Callbackhandle found in argumentlist");
+    }
+    final Long callBackhandle = (Long) args.get(0);
+    context.getSharedPreferences(SHARED_PREFERENCES_KEY,Context.MODE_PRIVATE)
+            .edit()
+            .putLong(CALLBACKI_DISPATCHER_HANDLE_KEY,callBackhandle)
+            .apply();
+  }
+
   @Override
   public void onMethodCall(MethodCall call, Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
+    final Object  arguments = call.arguments();
+    String method = call.method;
+    switch (method){
+      case "BackgroundService.initializeService":
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+          mActivity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},12312);
+        }
+        result.success(true);
+        break;
+      default: result.notImplemented();
+      break;
     }
   }
 }
