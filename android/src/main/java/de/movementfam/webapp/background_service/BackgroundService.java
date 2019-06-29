@@ -46,6 +46,7 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
+        Log.i(TAG,"Handle work");
         intent.getLongExtra(BackgroundServicePlugin.CALLBACK_HANDLE_KEY,0);
         synchronized (sServiceStarted){
             if(sServiceStarted.get()){
@@ -82,7 +83,7 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
                 flutterRunArguments.entrypoint = flutterCallbackInformation.callbackName;
                 flutterRunArguments.libraryPath = flutterCallbackInformation.callbackLibraryPath;
                 sBackgroundFlutterView.runFromBundle(flutterRunArguments);
-                new IsolateHolderService().setBackgroundFlutterView(sBackgroundFlutterView);
+                IsolateHolderService.setBackgroundFlutterView(sBackgroundFlutterView);
             }
         }
         mBackgroundChannel = new MethodChannel(sBackgroundFlutterView,"webapp.movement.de/background_service_plugin");
@@ -91,6 +92,7 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
 
     @Override
     public void onMethodCall(MethodCall methodCall, Result result) {
+        Log.i(TAG,"Methodcall"+methodCall.method);
         switch (methodCall.method){
             case "BackgroundService.initialized":
                 synchronized (sServiceStarted){

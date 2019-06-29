@@ -15,10 +15,10 @@ public class IsolateHolderService extends Service {
     private String TAG ="BackgroundService::IsolateHolderService";
     private String WAKELOCK_TAG = "IsolateHolderService::WAKE_LOCK";
 
-    private FlutterNativeView backgroundFlutterView = null;
+    private static FlutterNativeView backgroundFlutterView = null;
 
 
-    public void setBackgroundFlutterView(FlutterNativeView view) {
+    public static void setBackgroundFlutterView(FlutterNativeView view) {
         backgroundFlutterView = view;
     }
 
