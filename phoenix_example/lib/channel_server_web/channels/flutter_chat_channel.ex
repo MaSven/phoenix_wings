@@ -1,8 +1,9 @@
 defmodule ChannelServerWeb.FlutterChatChannel do
   use ChannelServerWeb, :channel
-
+  require Logger
   def join("flutter_chat:lobby", payload, socket) do
     if authorized?(payload) do
+      Logger.info("User logged in #{socket |> inspect()}")
       {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
@@ -25,6 +26,10 @@ defmodule ChannelServerWeb.FlutterChatChannel do
   def handle_in("say", payload, socket) do
     broadcast(socket, "say", payload)
     {:noreply, socket}
+  end
+
+  def terminate(reason,socket) do
+    Logger.info("Reason: #{reason |> inspect()}, User: #{socket |> inspect()}")
   end
 
   # Add authorization logic here as required.
