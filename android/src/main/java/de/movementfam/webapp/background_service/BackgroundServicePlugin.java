@@ -82,6 +82,7 @@ public class BackgroundServicePlugin implements MethodCallHandler {
       throw new RuntimeException("No Callbackhandle found in argumentlist");
     }
     final Long callBackhandle = (Long) args.get(0);
+    Log.d(TAG,"Callbackhandle is :" +callBackhandle);
     context.getSharedPreferences(SHARED_PREFERENCES_KEY,Context.MODE_PRIVATE)
             .edit()
             .putLong(CALLBACKI_DISPATCHER_HANDLE_KEY,callBackhandle)
@@ -90,6 +91,7 @@ public class BackgroundServicePlugin implements MethodCallHandler {
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
+    Log.i(TAG,"Methodcall "+call.method);
     final Object  arguments = call.arguments();
     String method = call.method;
     switch (method){
@@ -97,6 +99,7 @@ public class BackgroundServicePlugin implements MethodCallHandler {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
           mActivity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},12312);
         }
+        initializeService(mContext, (ArrayList<?>) call.arguments());
         result.success(true);
         break;
       default: result.notImplemented();
