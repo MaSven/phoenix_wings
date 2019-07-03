@@ -1,5 +1,6 @@
 package de.movementfam.webapp.background_service;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -34,6 +35,7 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
     private static FlutterNativeView sBackgroundFlutterView;
     private static final AtomicBoolean sServiceStarted = new AtomicBoolean(false);
     private static PluginRegistrantCallback sPluginRegistrantCallback;
+    private static final String CALL_BACK_HANDLE_KEY = "callback_handle";
 
 
     public static void setsPluginRegistrantCallback(PluginRegistrantCallback sPluginRegistrantCallback){
@@ -59,6 +61,18 @@ public class BackgroundService extends JobIntentService implements MethodCallHan
     public void onCreate() {
         super.onCreate();
         startBackgroundService(this);
+    }
+
+
+    private static PendingIntent getServicePendingIntent(Context context,Long callbackHandle){
+        final Intent intent = new Intent(context,BackgroundBroadcastReceiver.class).putExtra(CALL_BACK_HANDLE_KEY,callbackHandle);
+        return PendingIntent.getBroadcast(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+    }
+
+    public void registerService(Context context,Result result,ArrayList<?> args){
+        servi
+        result.success(true);
     }
 
 
